@@ -48,6 +48,12 @@ export const routes: Routes = [
       loadComponent: () =>
         import('./features/customer/my-orders/my-orders')
           .then(m => m.MyOrders)
+    },
+    {
+      path: 'my-orders/:id',
+      loadComponent: () =>
+        import('./features/customer/order-details/order-details')
+          .then(m => m.OrderDetails)
     }
     ]
   }

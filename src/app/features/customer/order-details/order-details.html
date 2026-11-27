@@ -1,1 +1,178 @@
-<p>order-details works!</p>
+<div class="container py-5" *ngIf="order">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold">Order Details</h2>
+      <p class="text-muted mb-0">
+        Order #{{ order.orderNumber }}
+      </p>
+    </div>
+
+    <a routerLink="/my-orders"
+       class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left"></i>
+      Back to Orders
+    </a>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Left Section -->
+    <div class="col-lg-8">
+
+      <!-- Order Information -->
+      <div class="details-card mb-4">
+        <div class="row g-3">
+
+          <div class="col-md-4">
+            <small class="text-muted">Order Date</small>
+            <p class="fw-semibold mb-0">
+              {{ order.createdAtUtc | date:'dd MMM yyyy, hh:mm a' }}
+            </p>
+          </div>
+
+          <div class="col-md-4">
+            <small class="text-muted">Order Status</small>
+            <p class="fw-semibold text-primary mb-0">
+              {{ order.orderStatus }}
+            </p>
+          </div>
+
+          <div class="col-md-4">
+            <small class="text-muted">Payment Status</small>
+            <p class="fw-semibold text-success mb-0">
+              {{ order.paymentStatus }}
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div class="details-card mb-4">
+
+        <h5 class="fw-bold mb-4">Ordered Products</h5>
+
+        <div class="product-row"
+             *ngFor="let item of order.items">
+
+          <div class="product-image">
+            <i class="bi bi-box-seam"></i>
+          </div>
+
+          <div class="flex-grow-1">
+            <h6 class="fw-semibold mb-1">
+              {{ item.productName }}
+            </h6>
+
+            <small class="text-muted">
+              ₹{{ item.unitPrice }} × {{ item.quantity }}
+            </small>
+          </div>
+
+          <strong>₹{{ item.lineTotal }}</strong>
+
+        </div>
+
+      </div>
+
+      <!-- Delivery Address -->
+      <div class="details-card mb-4">
+
+        <h5 class="fw-bold mb-3">
+          <i class="bi bi-geo-alt text-danger"></i>
+          Delivery Address
+        </h5>
+
+        <h6>{{ order.deliveryAddress.recipientName }}</h6>
+
+        <p class="text-muted mb-1">
+          {{ order.deliveryAddress.addressLine1 }},
+          {{ order.deliveryAddress.addressLine2 }},
+          {{ order.deliveryAddress.city }},
+          {{ order.deliveryAddress.state }} -
+          {{ order.deliveryAddress.postalCode }}
+        </p>
+
+        <small>
+          <i class="bi bi-telephone"></i>
+          {{ order.deliveryAddress.phone }}
+        </small>
+
+      </div>
+
+      <!-- Order Status History -->
+      <div class="details-card">
+
+        <h5 class="fw-bold mb-4">Order Status History</h5>
+
+        <div class="history-item"
+             *ngFor="let history of order.statusHistory">
+
+          <div class="history-dot"></div>
+
+          <div>
+            <h6 class="fw-semibold mb-1">
+              {{ history.newStatus }}
+            </h6>
+
+            <small class="text-muted">
+              {{ history.changedAtUtc | date:'dd MMM yyyy, hh:mm a' }}
+            </small>
+
+            <p class="mb-1 mt-1">
+              {{ history.note }}
+            </p>
+
+            <small class="text-muted">
+              Updated by {{ history.changedByName }}
+            </small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Right Section -->
+    <div class="col-lg-4">
+
+      <div class="details-card order-summary">
+
+        <h5 class="fw-bold mb-4">Price Summary</h5>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>₹{{ order.subtotal }}</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Delivery Fee</span>
+          <span>₹{{ order.deliveryFee }}</span>
+        </div>
+
+        <hr>
+
+        <div class="summary-row fw-bold fs-5">
+          <span>Total</span>
+          <span class="text-danger">
+            ₹{{ order.totalAmount }}
+          </span>
+        </div>
+
+        <div class="payment-info mt-4">
+          <small class="text-muted">Payment Status</small>
+          <h6 class="text-success mt-1">
+            {{ order.paymentStatus }}
+          </h6>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
