@@ -1,0 +1,68 @@
+
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-7">
+        <span class="badge bg-warning text-dark mb-3">
+          Fresh & Delicious
+        </span>
+
+        <h1>Good Food.<br>Good Mood.</h1>
+
+        <p>
+          Order your favourite food online.
+          Freshly prepared and delivered to your doorstep.
+        </p>
+
+        <a routerLink="/products" class="btn btn-danger btn-lg">
+          Order Now <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="col-md-5 text-center">
+        <div class="food-circle">
+          <i class="bi bi-egg-fried"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <h2 class="section-title">Explore Categories</h2>
+
+  <div class="row g-3 mt-3">
+    <div class="col-6 col-md-4" *ngFor="let category of categories">
+      <div class="category-card">
+        <i [class]="category.icon"></i>
+        <h5>{{ category.name }}</h5>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <h2 class="section-title">Featured Products</h2>
+
+  <div class="row g-4 mt-2">
+    <div class="col-md-4" *ngFor="let product of featuredProducts">
+      <div class="card product-card h-100">
+        <div class="product-placeholder">
+          <i class="bi bi-basket"></i>
+        </div>
+
+        <div class="card-body">
+          <small class="text-muted">{{ product.category }}</small>
+          <h5 class="mt-2">{{ product.name }}</h5>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="text-danger mb-0">₹{{ product.price }}</h5>
+            <button class="btn btn-outline-danger btn-sm">
+              View Product
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

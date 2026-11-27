@@ -1,0 +1,73 @@
+
+.hero-section {
+  background: #fff4ec;
+  padding: 80px 0;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #252525;
+}
+
+.hero-section p {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 20px 0;
+}
+
+.food-circle {
+  width: 250px;
+  height: 250px;
+  background: #ffe0c9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.food-circle i {
+  font-size: 110px;
+  color: #dc3545;
+}
+
+.section-title {
+  font-weight: 750;
+}
+
+.category-card {
+  padding: 30px 15px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 15px;
+}
+
+.category-card i {
+  font-size: 35px;
+  color: #dc3545;
+}
+
+.category-card h5 {
+  margin-top: 15px;
+}
+
+.product-card {
+  border: 1px solid #eee;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.product-placeholder {
+  height: 180px;
+  background: #fff4ec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-placeholder i {
+  font-size: 65px;
+  color: #dc3545;
+}
