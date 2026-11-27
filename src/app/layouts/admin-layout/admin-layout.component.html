@@ -1,0 +1,53 @@
+<div class="admin-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <i class="bi bi-shop me-2"></i>
+      Retail Admin
+    </div>
+
+    <div class="sidebar-heading">MAIN MENU</div>
+
+    <nav>
+      @for (item of menuItems; track item.route) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="sidebar-link">
+
+          <i [class]="'bi ' + item.icon"></i>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a routerLink="/login" class="sidebar-link">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="admin-main">
+
+    <header class="admin-navbar">
+      <div>
+        <h5 class="mb-0 fw-bold">Admin Panel</h5>
+        <small class="text-muted">Retail Ordering Management</small>
+      </div>
+
+      <div class="admin-profile">
+        <i class="bi bi-person-circle fs-3"></i>
+        <span>Administrator</span>
+      </div>
+    </header>
+
+    <section class="admin-content">
+      <router-outlet></router-outlet>
+    </section>
+
+  </main>
+</div>

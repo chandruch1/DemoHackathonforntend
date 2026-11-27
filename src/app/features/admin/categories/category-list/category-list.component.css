@@ -1,0 +1,54 @@
+
+.category-page {
+  padding: 24px;
+}
+
+.category-page .card {
+  border-radius: 12px;
+}
+
+.category-page .table th {
+  white-space: nowrap;
+  font-size: 14px;
+  color: #495057;
+}
+
+.category-page .table td {
+  vertical-align: middle;
+}
+
+.category-page .btn {
+  border-radius: 7px;
+}
+
+.form-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 1050;
+}
+
+.category-form-card {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  padding: 24px;
+  border-radius: 14px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 576px) {
+  .category-page {
+    padding: 12px;
+  }
+
+  .category-form-card {
+    padding: 16px;
+  }
+}
