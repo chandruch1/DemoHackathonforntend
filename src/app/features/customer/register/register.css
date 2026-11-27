@@ -89,3 +89,12 @@
     padding: 25px;
   }
 }
+
+.register-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.alert {
+  font-size: 14px;
+}

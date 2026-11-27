@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProductListItemDto, PagedResponse } from '../../models/product.model';
+import {
+  PagedResponse,
+  ProductDetailsDto,
+  ProductListItemDto
+} from '../../models/product.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductApiService {
 
-  private readonly apiUrl = 'https://localhost:7000/api/v1/products';
+  private readonly apiUrl = `${environment.apiUrl}/products`;
 
   constructor(private http: HttpClient) {}
 
@@ -34,6 +39,12 @@ export class ProductApiService {
     return this.http.get<PagedResponse<ProductListItemDto>>(
       this.apiUrl,
       { params }
+    );
+  }
+
+  getProductById(productId: number): Observable<ProductDetailsDto> {
+    return this.http.get<ProductDetailsDto>(
+      `${this.apiUrl}/${productId}`
     );
   }
 }

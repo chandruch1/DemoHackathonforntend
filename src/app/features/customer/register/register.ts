@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+
+import { AuthService } from '../../../core/auth/auth';
+import { RegisterCustomerRequest } from '../../../core/models/auth.model';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +15,9 @@ import { RouterLink } from '@angular/router';
 })
 export class Register {
 
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   fullName = '';
   email = '';
   phone = '';
@@ -19,10 +25,13 @@ export class Register {
   confirmPassword = '';
 
   showPassword = false;
+  isLoading = false;
+
   message = '';
   errorMessage = '';
 
   register(): void {
+
     this.message = '';
     this.errorMessage = '';
 
@@ -42,15 +51,34 @@ export class Register {
       return;
     }
 
-    const registerRequest = {
+    const request: RegisterCustomerRequest = {
       fullName: this.fullName,
       email: this.email,
       phone: this.phone,
-      password: this.password
+      password: this.password,
+      confirmPassword: this.confirmPassword
     };
 
-    console.log(registerRequest);
+    this.isLoading = true;
 
-    this.message = 'Registration UI is ready. API integration is pending.';
+    this.authService.register(request).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.message = 'Registration successful! Redirecting to login...';
+
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1500);
+      },
+
+      error: (error) => {
+        this.isLoading = false;
+
+        this.errorMessage =
+          error.error?.detail ||
+          error.error?.message ||
+          'Registration failed. Please try again.';
+      }
+    });
   }
 }

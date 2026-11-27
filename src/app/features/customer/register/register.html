@@ -80,13 +80,21 @@
           {{ errorMessage }}
         </div>
 
-        <div *ngIf="message" class="alert alert-info">
+        <div *ngIf="message" class="alert alert-success">
           {{ message }}
         </div>
 
-        <button type="submit" class="btn btn-danger register-btn">
-          Create Account
-          <i class="bi bi-arrow-right ms-2"></i>
+        <button
+          type="submit"
+          class="btn btn-danger register-btn"
+          [disabled]="isLoading">
+
+          <span *ngIf="isLoading"
+                class="spinner-border spinner-border-sm me-2">
+          </span>
+
+          {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+
         </button>
 
       </form>
