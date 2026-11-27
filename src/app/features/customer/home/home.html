@@ -1,68 +1,82 @@
 
+<!-- Hero Section -->
 <section class="hero-section">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-md-7">
-        <span class="badge bg-warning text-dark mb-3">
-          Fresh & Delicious
-        </span>
 
-        <h1>Good Food.<br>Good Mood.</h1>
+      <div class="col-lg-6">
+        <span class="hero-label">WELCOME TO RETAIL STORE</span>
+
+        <h1>
+          Everything You Love,
+          <span>Delivered Fresh.</span>
+        </h1>
 
         <p>
-          Order your favourite food online.
-          Freshly prepared and delivered to your doorstep.
+          Discover delicious food and refreshing drinks.
+          Order your favourites with just a few clicks.
         </p>
 
         <a routerLink="/products" class="btn btn-danger btn-lg">
-          Order Now <i class="bi bi-arrow-right"></i>
+          Explore Products
+          <i class="bi bi-arrow-right ms-2"></i>
         </a>
       </div>
 
-      <div class="col-md-5 text-center">
-        <div class="food-circle">
-          <i class="bi bi-egg-fried"></i>
+      <div class="col-lg-6 text-center">
+        <div class="hero-image">
+          <i class="bi bi-basket2-fill"></i>
+          <span>Fresh & Delicious</span>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<section class="container py-5">
-  <h2 class="section-title">Explore Categories</h2>
+<!-- Categories -->
+<section class="container category-section">
 
-  <div class="row g-3 mt-3">
+  <div class="section-heading">
+    <div>
+      <h2>Shop by Category</h2>
+      <p>Explore our popular categories</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
     <div class="col-6 col-md-4" *ngFor="let category of categories">
-      <div class="category-card">
-        <i [class]="category.icon"></i>
+      <a routerLink="/products" class="category-card">
+
+        <div class="category-icon">
+          <i [class]="category.icon"></i>
+        </div>
+
         <h5>{{ category.name }}</h5>
-      </div>
+
+        <span>Explore <i class="bi bi-arrow-right"></i></span>
+
+      </a>
     </div>
+
   </div>
+
 </section>
 
-<section class="container py-5">
-  <h2 class="section-title">Featured Products</h2>
+<!-- Featured Products Placeholder -->
+<section class="featured-section">
+  <div class="container text-center">
 
-  <div class="row g-4 mt-2">
-    <div class="col-md-4" *ngFor="let product of featuredProducts">
-      <div class="card product-card h-100">
-        <div class="product-placeholder">
-          <i class="bi bi-basket"></i>
-        </div>
+    <h2>Featured Products</h2>
 
-        <div class="card-body">
-          <small class="text-muted">{{ product.category }}</small>
-          <h5 class="mt-2">{{ product.name }}</h5>
+    <p>
+      Discover our delicious collection of products.
+    </p>
 
-          <div class="d-flex justify-content-between align-items-center">
-            <h5 class="text-danger mb-0">₹{{ product.price }}</h5>
-            <button class="btn btn-outline-danger btn-sm">
-              View Product
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <a routerLink="/products" class="btn btn-outline-danger">
+      View All Products
+    </a>
+
   </div>
 </section>
