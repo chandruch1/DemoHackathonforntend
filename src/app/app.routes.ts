@@ -18,7 +18,37 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/customer/products/product-list/product-list')
             .then(m => m.ProductList)
-      }
+      },
+      {
+        path: 'products/:id',
+        loadComponent: () =>
+          import('./features/customer/products/product-details/product-details')
+            .then(m => m.ProductDetails)
+      },
+      {
+        path: 'cart',
+        loadComponent: () =>
+          import('./features/customer/cart/cart')
+            .then(m => m.Cart)
+      },
+      {
+        path: 'checkout',
+        loadComponent: () =>
+          import('./features/customer/checkout/checkout')
+            .then(m => m.Checkout)
+      },
+      {
+      path: 'payment/result',
+      loadComponent: () =>
+        import('./features/customer/payment-result/payment-result')
+          .then(m => m.PaymentResult)
+    },
+    {
+      path: 'my-orders',
+      loadComponent: () =>
+        import('./features/customer/my-orders/my-orders')
+          .then(m => m.MyOrders)
+    }
     ]
   }
 ];
