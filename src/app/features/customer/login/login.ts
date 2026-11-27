@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/auth/auth';
+import { LoginRequest } from '../../../core/models/auth.model';
+import { getApiErrorMessage } from '../../../core/utils/api-error-message';
 
 @Component({
   selector: 'app-login',
@@ -12,25 +16,60 @@ import { RouterLink } from '@angular/router';
 })
 export class Login {
 
+  private readonly authService = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
   email = '';
   password = '';
   showPassword = false;
 
-  message = '';
+  isLoading = false;
+  errorMessage = '';
 
   login(): void {
-    if (!this.email || !this.password) {
-      this.message = 'Please enter your email and password.';
+    this.errorMessage = '';
+    if (this.isLoading) {
       return;
     }
 
-    const loginRequest = {
-      email: this.email,
+    if (!this.email.trim() || !this.password) {
+      this.errorMessage = 'Please enter your email and password.';
+      return;
+    }
+
+    const loginRequest: LoginRequest = {
+      email: this.email.trim(),
       password: this.password
     };
 
-    console.log(loginRequest);
+    this.isLoading = true;
+    this.authService.login(loginRequest).subscribe({
+      next: response => {
+        this.isLoading = false;
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
 
-    this.message = 'Login UI is ready. API integration is pending.';
+        if (response.user.role === 'Admin') {
+          void this.router.navigateByUrl(
+            returnUrl?.startsWith('/admin') ? returnUrl : '/admin/dashboard'
+          );
+          return;
+        }
+
+        const safeReturnUrl = returnUrl?.startsWith('/') &&
+          !returnUrl.startsWith('//') &&
+          !returnUrl.startsWith('/\\') &&
+          !returnUrl.startsWith('/admin')
+          ? returnUrl
+          : '/';
+        void this.router.navigateByUrl(safeReturnUrl);
+      },
+      error: error => {
+        this.isLoading = false;
+        this.errorMessage = error instanceof HttpErrorResponse && error.status === 401
+          ? 'The email or password is incorrect.'
+          : getApiErrorMessage(error, 'Login failed. Please try again.');
+      }
+    });
   }
 }

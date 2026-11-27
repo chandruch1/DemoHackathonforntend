@@ -46,37 +46,91 @@
 
   <div class="row g-4">
 
+    <div *ngIf="isLoading" class="col-12 text-center py-4" role="status">
+      <span class="spinner-border text-danger" aria-hidden="true"></span>
+      <span class="visually-hidden">Loading categories...</span>
+    </div>
+
     <div class="col-6 col-md-4" *ngFor="let category of categories">
       <a routerLink="/products" class="category-card">
 
         <div class="category-icon">
-          <i [class]="category.icon"></i>
+          <i class="bi bi-grid"></i>
         </div>
 
-        <h5>{{ category.name }}</h5>
+        <h5>{{ category.categoryName }}</h5>
 
         <span>Explore <i class="bi bi-arrow-right"></i></span>
 
       </a>
     </div>
 
+    <div
+      *ngIf="!isLoading && !errorMessage && categories.length === 0"
+      class="col-12 text-center text-muted">
+      No categories are available right now.
+    </div>
+
   </div>
 
 </section>
 
-<!-- Featured Products Placeholder -->
 <section class="featured-section">
-  <div class="container text-center">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2>Featured Products</h2>
+        <p>Products currently available in our catalogue</p>
+      </div>
+      <a routerLink="/products" class="btn btn-outline-danger">
+        View All Products
+      </a>
+    </div>
 
-    <h2>Featured Products</h2>
+    <div *ngIf="errorMessage" class="alert alert-warning" role="alert">
+      <p class="mb-2">{{ errorMessage }}</p>
+      <button class="btn btn-outline-danger" type="button" (click)="retry()">
+        Try again
+      </button>
+    </div>
 
-    <p>
-      Discover our delicious collection of products.
+    <div *ngIf="isLoading" class="text-center py-5" role="status">
+      <span class="spinner-border text-danger" aria-hidden="true"></span>
+      <span class="visually-hidden">Loading products...</span>
+    </div>
+
+    <div class="row g-4" *ngIf="!isLoading && !errorMessage">
+      <div class="col-12 col-sm-6 col-lg-3" *ngFor="let product of products">
+        <article class="home-product-card h-100">
+          <a [routerLink]="['/products', product.productId]" class="home-product-image">
+            <img *ngIf="product.imageUrl" [src]="product.imageUrl" [alt]="product.name">
+            <i *ngIf="!product.imageUrl" class="bi bi-box-seam" aria-hidden="true"></i>
+            <span [class.out-of-stock]="!product.isAvailable">
+              {{ product.isAvailable ? 'Available' : 'Out of Stock' }}
+            </span>
+          </a>
+
+          <div class="p-3">
+            <small class="text-danger">{{ product.categoryName }}</small>
+            <h5 class="mt-2">{{ product.name }}</h5>
+            <p class="text-muted">{{ product.shortDescription }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <strong>₹{{ product.price | number:'1.2-2' }}</strong>
+              <a
+                [routerLink]="['/products', product.productId]"
+                class="btn btn-sm btn-outline-danger">
+                View details
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <p
+      *ngIf="!isLoading && !errorMessage && products.length === 0"
+      class="text-center text-muted mb-0">
+      No products are available right now.
     </p>
-
-    <a routerLink="/products" class="btn btn-outline-danger">
-      View All Products
-    </a>
-
   </div>
 </section>

@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import {
   RegisterCustomerRequest,
@@ -8,15 +8,20 @@ import {
   UserSummaryDto,
   AuthResponse
 } from '../../core/models/auth.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
+  private readonly accessTokenKey = 'retail-ordering.access-token';
+  private readonly tokenExpiryKey = 'retail-ordering.token-expiry';
+  private readonly currentUserState = signal<UserSummaryDto | null>(null);
 
-  private apiUrl = 'https://localhost:7000/api/v1/auth';
+  readonly currentUser = this.currentUserState.asReadonly();
 
   register(request: RegisterCustomerRequest): Observable<UserSummaryDto> {
     return this.http.post<UserSummaryDto>(
@@ -29,12 +34,41 @@ export class AuthService {
     return this.http.post<AuthResponse>(
       `${this.apiUrl}/login`,
       request
-    );
+    ).pipe(tap(response => this.storeSession(response)));
   }
 
   getCurrentUser(): Observable<UserSummaryDto> {
     return this.http.get<UserSummaryDto>(
       `${this.apiUrl}/me`
-    );
+    ).pipe(tap(user => this.currentUserState.set(user)));
+  }
+
+  getAccessToken(): string | null {
+    const token = sessionStorage.getItem(this.accessTokenKey);
+    const expiry = sessionStorage.getItem(this.tokenExpiryKey);
+    const expiryTimestamp = expiry ? Date.parse(expiry) : Number.NaN;
+
+    if (!token || !Number.isFinite(expiryTimestamp) || expiryTimestamp <= Date.now()) {
+      this.logout();
+      return null;
+    }
+
+    return token;
+  }
+
+  isAuthenticated(): boolean {
+    return this.getAccessToken() !== null;
+  }
+
+  logout(): void {
+    sessionStorage.removeItem(this.accessTokenKey);
+    sessionStorage.removeItem(this.tokenExpiryKey);
+    this.currentUserState.set(null);
+  }
+
+  private storeSession(response: AuthResponse): void {
+    sessionStorage.setItem(this.accessTokenKey, response.accessToken);
+    sessionStorage.setItem(this.tokenExpiryKey, response.expiresAtUtc);
+    this.currentUserState.set(response.user);
   }
 }

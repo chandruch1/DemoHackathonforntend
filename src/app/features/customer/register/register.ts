@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../core/auth/auth';
 import { RegisterCustomerRequest } from '../../../core/models/auth.model';
+import { getApiErrorMessage } from '../../../core/utils/api-error-message';
 
 @Component({
   selector: 'app-register',
@@ -62,7 +63,7 @@ export class Register {
     this.isLoading = true;
 
     this.authService.register(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
         this.message = 'Registration successful! Redirecting to login...';
 
@@ -71,13 +72,12 @@ export class Register {
         }, 1500);
       },
 
-      error: (error) => {
+      error: error => {
         this.isLoading = false;
-
-        this.errorMessage =
-          error.error?.detail ||
-          error.error?.message ||
-          'Registration failed. Please try again.';
+        this.errorMessage = getApiErrorMessage(
+          error,
+          'Registration failed. Please try again.'
+        );
       }
     });
   }

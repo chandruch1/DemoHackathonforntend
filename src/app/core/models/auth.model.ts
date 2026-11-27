@@ -29,13 +29,6 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface UserSummaryDto {
-  userId: string;
-  fullName: string;
-  email: string;
-  role: 'Admin' | 'Customer';
-}
-
 export interface AuthResponse {
   accessToken: string;
   tokenType: 'Bearer';

@@ -1,11 +1,24 @@
-<div class="container py-5" *ngIf="order">
+<div class="container py-5">
+  <div *ngIf="isLoading" class="text-center py-5" role="status">
+    <div class="spinner-border text-danger" aria-hidden="true"></div>
+    <p class="text-muted mt-3 mb-0">Loading order...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    <div class="d-flex justify-content-between align-items-center gap-3">
+      <span>{{ errorMessage }}</span>
+      <button class="btn btn-sm btn-outline-danger" (click)="retry()">Try again</button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="order as currentOrder">
 
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h2 class="fw-bold">Order Details</h2>
       <p class="text-muted mb-0">
-        Order #{{ order.orderNumber }}
+        Order #{{ currentOrder.orderNumber }}
       </p>
     </div>
 
@@ -28,21 +41,21 @@
           <div class="col-md-4">
             <small class="text-muted">Order Date</small>
             <p class="fw-semibold mb-0">
-              {{ order.createdAtUtc | date:'dd MMM yyyy, hh:mm a' }}
+              {{ currentOrder.createdAtUtc | date:'dd MMM yyyy, hh:mm a' }}
             </p>
           </div>
 
           <div class="col-md-4">
             <small class="text-muted">Order Status</small>
             <p class="fw-semibold text-primary mb-0">
-              {{ order.orderStatus }}
+              {{ currentOrder.orderStatus }}
             </p>
           </div>
 
           <div class="col-md-4">
             <small class="text-muted">Payment Status</small>
             <p class="fw-semibold text-success mb-0">
-              {{ order.paymentStatus }}
+              {{ currentOrder.paymentStatus }}
             </p>
           </div>
 
@@ -55,7 +68,7 @@
         <h5 class="fw-bold mb-4">Ordered Products</h5>
 
         <div class="product-row"
-             *ngFor="let item of order.items">
+             *ngFor="let item of currentOrder.items">
 
           <div class="product-image">
             <i class="bi bi-box-seam"></i>
@@ -85,19 +98,19 @@
           Delivery Address
         </h5>
 
-        <h6>{{ order.deliveryAddress.recipientName }}</h6>
+        <h6>{{ currentOrder.deliveryAddress.recipientName }}</h6>
 
         <p class="text-muted mb-1">
-          {{ order.deliveryAddress.addressLine1 }},
-          {{ order.deliveryAddress.addressLine2 }},
-          {{ order.deliveryAddress.city }},
-          {{ order.deliveryAddress.state }} -
-          {{ order.deliveryAddress.postalCode }}
+          {{ currentOrder.deliveryAddress.addressLine1 }},
+          {{ currentOrder.deliveryAddress.addressLine2 }},
+          {{ currentOrder.deliveryAddress.city }},
+          {{ currentOrder.deliveryAddress.state }} -
+          {{ currentOrder.deliveryAddress.postalCode }}
         </p>
 
         <small>
           <i class="bi bi-telephone"></i>
-          {{ order.deliveryAddress.phone }}
+          {{ currentOrder.deliveryAddress.phone }}
         </small>
 
       </div>
@@ -108,7 +121,7 @@
         <h5 class="fw-bold mb-4">Order Status History</h5>
 
         <div class="history-item"
-             *ngFor="let history of order.statusHistory">
+             *ngFor="let history of currentOrder.statusHistory">
 
           <div class="history-dot"></div>
 
@@ -145,12 +158,12 @@
 
         <div class="summary-row">
           <span>Subtotal</span>
-          <span>₹{{ order.subtotal }}</span>
+          <span>₹{{ currentOrder.subtotal }}</span>
         </div>
 
         <div class="summary-row">
           <span>Delivery Fee</span>
-          <span>₹{{ order.deliveryFee }}</span>
+          <span>₹{{ currentOrder.deliveryFee }}</span>
         </div>
 
         <hr>
@@ -158,21 +171,21 @@
         <div class="summary-row fw-bold fs-5">
           <span>Total</span>
           <span class="text-danger">
-            ₹{{ order.totalAmount }}
+            ₹{{ currentOrder.totalAmount }}
           </span>
         </div>
 
         <div class="payment-info mt-4">
           <small class="text-muted">Payment Status</small>
           <h6 class="text-success mt-1">
-            {{ order.paymentStatus }}
+            {{ currentOrder.paymentStatus }}
           </h6>
         </div>
-
       </div>
 
     </div>
 
   </div>
 
+  </ng-container>
 </div>

@@ -43,12 +43,13 @@
           </div>
         </div>
 
-        <div *ngIf="message" class="alert alert-info">
-          {{ message }}
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
         </div>
 
-        <button type="submit" class="btn btn-danger login-btn">
-          Login
+        <button type="submit" class="btn btn-danger login-btn" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          {{ isLoading ? 'Signing in...' : 'Login' }}
           <i class="bi bi-arrow-right ms-2"></i>
         </button>
 

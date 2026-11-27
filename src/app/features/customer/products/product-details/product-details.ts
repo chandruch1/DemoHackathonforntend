@@ -5,8 +5,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
+import { AddCartItemRequest } from '../../../../core/models/cart.model';
 import { ProductDetailsDto } from '../../../../core/models/product.model';
+import { CartApiService } from '../../../../core/services/cart/cart-api';
 import { ProductApiService } from '../../../../core/services/product/product-api';
+import { getApiErrorMessage } from '../../../../core/utils/api-error-message';
 
 type ProductLoadResult =
   | { kind: 'invalid' }
@@ -25,11 +28,15 @@ export class ProductDetails {
   quantity = 1;
   product: ProductDetailsDto | null = null;
   isLoading = true;
+  isAddingToCart = false;
   errorMessage: string | null = null;
+  cartMessage: string | null = null;
+  cartErrorMessage: string | null = null;
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
   private readonly productApi = inject(ProductApiService);
+  private readonly cartApi = inject(CartApiService);
 
   constructor() {
     this.route.paramMap.pipe(
@@ -38,6 +45,8 @@ export class ProductDetails {
       tap(() => {
         this.isLoading = true;
         this.errorMessage = null;
+        this.cartMessage = null;
+        this.cartErrorMessage = null;
         this.product = null;
         this.quantity = 1;
       }),
@@ -86,6 +95,41 @@ export class ProductDetails {
     if (this.product && this.quantity > 1) {
       this.quantity--;
     }
+  }
+
+  addToCart(): void {
+    if (
+      !this.product ||
+      this.product.availableQuantity < 1 ||
+      this.quantity > this.product.availableQuantity ||
+      this.isAddingToCart
+    ) {
+      return;
+    }
+
+    const request: AddCartItemRequest = {
+      productId: this.product.productId,
+      quantity: this.quantity
+    };
+
+    this.cartMessage = null;
+    this.cartErrorMessage = null;
+    this.isAddingToCart = true;
+
+    this.cartApi.addItem(request).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: () => {
+        this.isAddingToCart = false;
+        this.cartMessage = 'Product added to your cart.';
+      },
+      error: error => {
+        this.isAddingToCart = false;
+        this.cartErrorMessage = error instanceof HttpErrorResponse && error.status === 409
+          ? 'The requested quantity is no longer available. Please update the quantity and try again.'
+          : getApiErrorMessage(error, 'We could not add this product to your cart.');
+      }
+    });
   }
 
   private getLoadErrorMessage(error: HttpErrorResponse): string {

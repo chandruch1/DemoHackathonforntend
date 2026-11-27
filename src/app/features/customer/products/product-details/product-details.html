@@ -107,11 +107,22 @@
 
           <!-- Add to Cart -->
           <button
+            type="button"
             class="btn btn-danger add-cart-btn"
-            [disabled]="product.availableQuantity === 0">
-            <i class="bi bi-cart-plus me-2"></i>
-            Add to Cart
+            [disabled]="product.availableQuantity === 0 || isAddingToCart"
+            (click)="addToCart()">
+            <span *ngIf="isAddingToCart" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            <i *ngIf="!isAddingToCart" class="bi bi-cart-plus me-2"></i>
+            {{ isAddingToCart ? 'Adding...' : 'Add to Cart' }}
           </button>
+
+          <div *ngIf="cartMessage" class="alert alert-success mt-3" role="status">
+            {{ cartMessage }}
+          </div>
+
+          <div *ngIf="cartErrorMessage" class="alert alert-danger mt-3" role="alert">
+            {{ cartErrorMessage }}
+          </div>
 
           <p class="delivery-note">
             <i class="bi bi-truck"></i>

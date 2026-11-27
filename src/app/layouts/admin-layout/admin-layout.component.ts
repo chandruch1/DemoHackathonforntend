@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+
+import { AuthService } from '../../core/auth/auth';
 
 @Component({
   selector: 'app-admin-layout',
@@ -9,6 +11,9 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   styleUrl: './admin-layout.component.css'
 })
 export class AdminLayoutComponent {
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
   menuItems = [
     { label: 'Dashboard', icon: 'bi-speedometer2', route: '/admin/dashboard' },
     { label: 'Products', icon: 'bi-box-seam', route: '/admin/products' },
@@ -17,4 +22,9 @@ export class AdminLayoutComponent {
     { label: 'Inventory', icon: 'bi-clipboard-data', route: '/admin/inventory' },
     { label: 'Orders', icon: 'bi-cart-check', route: '/admin/orders' }
   ];
+
+  logout(): void {
+    this.authService.logout();
+    void this.router.navigate(['/login']);
+  }
 }

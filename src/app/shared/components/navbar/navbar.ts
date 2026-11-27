@@ -1,19 +1,27 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../../core/auth/auth';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
 export class Navbar {
 
-  // Temporary UI state
-  isLoggedIn = false;
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  readonly currentUser = this.authService.currentUser;
+
+  get isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
+  }
 
   logout(): void {
-    this.isLoggedIn = false;
+    this.authService.logout();
+    void this.router.navigate(['/']);
   }
 }

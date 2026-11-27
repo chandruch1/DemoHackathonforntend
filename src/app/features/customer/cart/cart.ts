@@ -1,8 +1,12 @@
 
-import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CartDto, CartItemDto } from '../../../core/models/cart.model';
+import { CartApiService } from '../../../core/services/cart/cart-api';
+import { getApiErrorMessage } from '../../../core/utils/api-error-message';
 
 @Component({
   selector: 'app-cart',
@@ -13,78 +17,88 @@ import { CartDto, CartItemDto } from '../../../core/models/cart.model';
 })
 export class Cart {
 
-  // Temporary mock CartDto response
-  cart: CartDto = {
-    cartId: 1,
-    items: [
-      {
-        cartItemId: 1,
-        productId: 1,
-        productName: 'Margherita Pizza',
-        imageUrl: 'https://images.unsplash.com/photo-1579751626657-72bc17010498?w=400',
-        unitPrice: 199,
-        quantity: 2,
-        lineTotal: 398,
-        availableQuantity: 12
-      },
-      {
-        cartItemId: 2,
-        productId: 3,
-        productName: 'Fresh Lime Soda',
-        imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765edfd4?w=400',
-        unitPrice: 79,
-        quantity: 1,
-        lineTotal: 79,
-        availableQuantity: 15
-      }
-    ],
-    itemCount: 3,
-    subtotal: 477,
-    updatedAtUtc: '2026-11-27T09:00:00Z'
-  };
+  cart: CartDto | null = null;
+  isLoading = true;
+  isUpdating = false;
+  errorMessage: string | null = null;
+
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly cartApi = inject(CartApiService);
+
+  constructor() {
+    this.loadCart();
+  }
 
   updateQuantity(item: CartItemDto, change: number): void {
     const newQuantity = item.quantity + change;
 
-    if (newQuantity < 1 || newQuantity > item.availableQuantity) {
+    if (
+      this.isUpdating ||
+      newQuantity < 1 ||
+      newQuantity > item.availableQuantity
+    ) {
       return;
     }
 
-    item.quantity = newQuantity;
-
-    // Temporary mock behaviour only.
-    // The real backend will calculate line totals and subtotal.
-    item.lineTotal = item.unitPrice * item.quantity;
-    this.cart.itemCount = this.cart.items.reduce(
-      (total, current) => total + current.quantity,
-      0
-    );
-    this.cart.subtotal = this.cart.items.reduce(
-      (total, current) => total + current.lineTotal,
-      0
+    this.runMutation(
+      this.cartApi.updateItem(item.cartItemId, { quantity: newQuantity })
     );
   }
 
   removeItem(cartItemId: number): void {
-    this.cart.items = this.cart.items.filter(
-      item => item.cartItemId !== cartItemId
-    );
-
-    this.cart.itemCount = this.cart.items.reduce(
-      (total, item) => total + item.quantity,
-      0
-    );
-
-    this.cart.subtotal = this.cart.items.reduce(
-      (total, item) => total + item.lineTotal,
-      0
-    );
+    if (!this.isUpdating) {
+      this.runMutation(this.cartApi.removeItem(cartItemId));
+    }
   }
 
   clearCart(): void {
-    this.cart.items = [];
-    this.cart.itemCount = 0;
-    this.cart.subtotal = 0;
+    if (!this.isUpdating) {
+      this.runMutation(this.cartApi.clearCart());
+    }
+  }
+
+  retry(): void {
+    this.loadCart();
+  }
+
+  private loadCart(): void {
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.cartApi.getCart().pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: cart => {
+        this.cart = cart;
+        this.isLoading = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage = getApiErrorMessage(
+          error,
+          'We could not load your cart. Please try again.'
+        );
+        this.isLoading = false;
+      }
+    });
+  }
+
+  private runMutation(request: ReturnType<CartApiService['getCart']>): void {
+    this.isUpdating = true;
+    this.errorMessage = null;
+    request.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: cart => {
+        this.cart = cart;
+        this.isUpdating = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage = getApiErrorMessage(
+          error,
+          'We could not update your cart. Please try again.'
+        );
+        this.isUpdating = false;
+      }
+    });
   }
 
 }
