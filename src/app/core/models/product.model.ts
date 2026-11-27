@@ -18,3 +18,20 @@ export interface PagedResponse<T> {
   totalCount: number;
   totalPages: number;
 }
+
+
+export interface ProductDetailsDto {
+  productId: number;
+  name: string;
+  description: string;
+  categoryId: number;
+  categoryName: string;
+  brandId?: number;
+  brandName?: string;
+  packagingInfo?: string;
+  price: number;
+  imageUrl?: string;
+  availableQuantity: number;
+  isActive: boolean;
+  createdAtUtc: string;
+}

@@ -1,0 +1,131 @@
+<div class="container py-5">
+
+  <h2 class="fw-bold mb-4">Checkout</h2>
+
+  <div class="row g-4">
+
+    <!-- Delivery Address -->
+    <div class="col-lg-8">
+
+      <div class="checkout-card mb-4">
+        <h5 class="fw-bold mb-3">
+          <i class="bi bi-geo-alt text-danger"></i>
+          Delivery Address
+        </h5>
+
+        <div *ngFor="let address of addresses"
+             class="address-box">
+
+          <input
+            type="radio"
+            name="address"
+            [value]="address.addressId"
+            [(ngModel)]="selectedAddressId">
+
+          <div>
+            <strong>{{ address.recipientName }}</strong>
+
+            <span *ngIf="address.isDefault"
+                  class="badge bg-success ms-2">
+              Default
+            </span>
+
+            <p class="mt-2 mb-1">
+              {{ address.addressLine1 }},
+              {{ address.addressLine2 }},
+              {{ address.city }},
+              {{ address.state }} -
+              {{ address.postalCode }}
+            </p>
+
+            <small>{{ address.phone }}</small>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Delivery Instructions -->
+      <div class="checkout-card mb-4">
+        <h5 class="fw-bold mb-3">Delivery Instructions</h5>
+
+        <textarea
+          class="form-control"
+          rows="3"
+          placeholder="Any special instructions?"
+          [(ngModel)]="deliveryInstructions">
+        </textarea>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="checkout-card">
+
+        <h5 class="fw-bold mb-3">Payment Method</h5>
+
+        <label class="payment-option">
+          <input
+            type="radio"
+            name="payment"
+            [checked]="paymentMethod === 'Razorpay'"
+            (change)="selectPayment('Razorpay')">
+
+          <i class="bi bi-credit-card text-danger"></i>
+          Online Payment (Razorpay)
+        </label>
+
+        <label class="payment-option">
+          <input
+            type="radio"
+            name="payment"
+            [checked]="paymentMethod === 'CashOnDelivery'"
+            (change)="selectPayment('CashOnDelivery')">
+
+          <i class="bi bi-cash-stack text-success"></i>
+          Cash on Delivery
+        </label>
+
+      </div>
+
+    </div>
+
+    <!-- Order Summary -->
+    <div class="col-lg-4">
+
+      <div class="checkout-card order-summary">
+
+        <h5 class="fw-bold mb-4">Order Summary</h5>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>₹{{ subtotal }}</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Delivery Fee</span>
+          <span>₹{{ deliveryFee }}</span>
+        </div>
+
+        <hr>
+
+        <div class="summary-row fw-bold fs-5">
+          <span>Total</span>
+          <span class="text-danger">₹{{ totalAmount }}</span>
+        </div>
+
+        <button
+          class="btn btn-danger w-100 mt-4"
+          [disabled]="!selectedAddressId"
+          (click)="placeOrder()">
+          Place Order
+        </button>
+
+        <a routerLink="/cart"
+           class="btn btn-outline-secondary w-100 mt-2">
+          Back to Cart
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

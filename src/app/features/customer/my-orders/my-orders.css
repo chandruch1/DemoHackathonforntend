@@ -1,0 +1,95 @@
+.order-card {
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+  padding: 22px;
+  transition: box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+/* Order Status */
+
+.status-badge,
+.payment-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.delivered,
+.paid {
+  background: #d1e7dd;
+  color: #146c43;
+}
+
+.processing {
+  background: #cff4fc;
+  color: #055160;
+}
+
+.confirmed {
+  background: #cfe2ff;
+  color: #084298;
+}
+
+.pending {
+  background: #fff3cd;
+  color: #997404;
+}
+
+.cancelled,
+.failed {
+  background: #f8d7da;
+  color: #b02a37;
+}
+
+/* View Button */
+
+.view-link {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f8f9fa;
+  color: #dc3545;
+  text-decoration: none;
+}
+
+.view-link:hover {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+/* Empty State */
+
+.empty-orders {
+  text-align: center;
+  padding: 70px 20px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+}
+
+.empty-orders i {
+  font-size: 55px;
+  color: #dc3545;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .order-card {
+    padding: 18px;
+  }
+
+  .order-card .row > div {
+    margin-bottom: 8px;
+  }
+}
