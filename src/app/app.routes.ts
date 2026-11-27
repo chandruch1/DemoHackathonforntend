@@ -1,8 +1,18 @@
 
 import { Routes } from '@angular/router';
 import { CustomerLayout } from './layouts/customer-layout/customer-layout';
+import { Login } from './features/customer/login/login';
+import { Register } from './features/customer/register/register';
 
 export const routes: Routes = [
+  {
+    path: 'login',
+    component: Login
+  },
+  {
+    path: 'register',
+    component: Register
+  },
   {
     path: '',
     component: CustomerLayout,
@@ -54,6 +64,18 @@ export const routes: Routes = [
       loadComponent: () =>
         import('./features/customer/order-details/order-details')
           .then(m => m.OrderDetails)
+    },
+    {
+      path: 'profile',
+      loadComponent: () =>
+        import('./features/customer/profile/profile')
+          .then(m => m.Profile)
+    },
+    {
+      path: 'addresses',
+      loadComponent: () =>
+        import('./features/customer/address-management/address-management')
+          .then(m => m.AddressManagement)
     }
     ]
   }

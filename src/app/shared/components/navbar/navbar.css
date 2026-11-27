@@ -1,4 +1,3 @@
-
 .navbar {
   padding: 14px 0;
   background-color: #ffffff;
@@ -11,8 +10,8 @@
 
 .nav-link {
   font-weight: 500;
-  color: #555;
-  margin: 0 12px;
+  color: #555555;
+  margin: 0 10px;
   transition: color 0.2s ease;
 }
 
@@ -22,7 +21,7 @@
 }
 
 .nav-icon {
-  color: #333;
+  color: #333333;
   text-decoration: none;
   font-weight: 500;
   display: flex;
@@ -38,7 +37,21 @@
   color: #dc3545;
 }
 
-.navbar .btn-danger {
+.navbar .btn {
   border-radius: 8px;
   font-weight: 500;
+}
+
+@media (max-width: 991px) {
+  .navbar-nav {
+    padding: 15px 0;
+  }
+
+  .nav-link {
+    margin: 5px 0;
+  }
+
+  .navbar-collapse .d-flex {
+    padding-bottom: 12px;
+  }
 }
