@@ -1,0 +1,130 @@
+
+<section class="cart-section">
+  <div class="container">
+
+    <div class="cart-heading">
+      <span>YOUR SHOPPING</span>
+      <h1>Shopping Cart</h1>
+      <p>Review your selected products before checkout.</p>
+    </div>
+
+    <div *ngIf="cart.items.length > 0; else emptyCart">
+
+      <div class="row g-4">
+
+        <!-- Cart Items -->
+        <div class="col-lg-8">
+
+          <div class="cart-header">
+            <h5>Cart Items ({{ cart().itemCount }})</h5>
+
+            <button class="clear-btn" [disabled]="isUpdating" (click)="clearCart()">
+              <i class="bi bi-trash"></i> Clear Cart
+            </button>
+          </div>
+
+          <div class="cart-item" *ngFor="let item of cart().items">
+
+            <img *ngIf="item.imageUrl" [src]="item.imageUrl" [alt]="item.productName">
+
+            <div class="item-details">
+              <h5>{{ item.productName }}</h5>
+
+              <p>₹{{ item.unitPrice | number:'1.2-2' }} each</p>
+
+              <div class="quantity-control">
+
+                <button
+                  (click)="updateQuantity(item, -1)"
+                  [disabled]="isUpdating || item.quantity <= 1">
+                  <i class="bi bi-dash"></i>
+                </button>
+
+                <span>{{ item.quantity }}</span>
+
+                <button
+                  (click)="updateQuantity(item, 1)"
+                  [disabled]="isUpdating || item.quantity >= item.availableQuantity">
+                  <i class="bi bi-plus"></i>
+                </button>
+
+              </div>
+            </div>
+
+            <div class="item-actions">
+              <h5>₹{{ item.lineTotal | number:'1.2-2' }}</h5>
+
+              <button
+                class="remove-btn"
+                [disabled]="isUpdating"
+                (click)="removeItem(item.cartItemId)">
+                <i class="bi bi-trash"></i> Remove
+              </button>
+            </div>
+
+          </div>
+
+          <a routerLink="/products" class="continue-link">
+            <i class="bi bi-arrow-left"></i>
+            Continue Shopping
+          </a>
+
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+
+          <div class="summary-card">
+
+            <h4>Order Summary</h4>
+
+            <div class="summary-row">
+              <span>Total Items</span>
+              <span>{{ cart().itemCount }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <strong>₹{{ cart().subtotal | number:'1.2-2' }}</strong>
+            </div>
+
+            <hr>
+
+            <div class="summary-row total-row">
+              <strong>Subtotal</strong>
+              <strong>₹{{ cart().subtotal | number:'1.2-2' }}</strong>
+            </div>
+
+            <p class="summary-note">
+              Delivery fee, if applicable, will be calculated at checkout.
+            </p>
+
+            <a routerLink="/checkout" class="btn btn-danger checkout-btn">
+              Proceed to Checkout
+              <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      *ngIf="!isLoading && !errorMessage && cart?.items.length === 0"
+      class="empty-cart">
+      <i class="bi bi-cart-x"></i>
+
+      <h3>Your cart is empty</h3>
+
+      <p>Looks like you haven't added anything to your cart yet.</p>
+
+      <a routerLink="/products" class="btn btn-danger">
+        Explore Products
+      </a>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,81 @@
+<div class="login-section">
+  <div class="container">
+    <div class="login-card">
+
+      <div class="login-header">
+        <i class="bi bi-shop"></i>
+        <h2>Welcome Back!</h2>
+        <p>Login to continue shopping</p>
+      </div>
+
+      <form (ngSubmit)="login()">
+
+        <div class="mb-3">
+          <label class="form-label">Email Address</label>
+
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [ngModel]="email()"
+            (ngModelChange)="email.set($event)"
+            placeholder="Enter your email"
+            required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+
+          <div class="password-field">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              class="form-control"
+              name="password"
+              [ngModel]="password()"
+              (ngModelChange)="password.set($event)"
+              placeholder="Enter your password"
+              required>
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="showPassword.update(show => !show)">
+              <i [class]="showPassword() ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+<<<<<<< HEAD
+        <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
+          {{ errorMessage() }}
+        </div>
+
+        <div *ngIf="message()" class="alert alert-info" role="status">
+          {{ message() }}
+        </div>
+
+        <button type="submit" class="btn btn-danger login-btn" [disabled]="isSubmitting()">
+          <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          Login
+=======
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn btn-danger login-btn" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          {{ isLoading ? 'Signing in...' : 'Login' }}
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+          <i class="bi bi-arrow-right ms-2"></i>
+        </button>
+
+      </form>
+
+      <div class="register-link">
+        Don't have an account?
+        <a routerLink="/register">Create Account</a>
+      </div>
+
+    </div>
+  </div>
+</div>

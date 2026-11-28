@@ -1,0 +1,178 @@
+
+<section class="products-page">
+  <div class="container">
+
+    <!-- Page Heading -->
+    <div class="page-heading">
+      <span class="text-danger fw-semibold">OUR COLLECTION</span>
+      <h1>Explore Our Products</h1>
+      <p>Discover your favourites from our delicious collection.</p>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search products..."
+        [ngModel]="searchText()"
+        (ngModelChange)="searchText.set($event)"
+        (ngModelChange)="onSearch()">
+    </div>
+
+    <!-- Category Filters -->
+    <div class="category-filters">
+      <button
+<<<<<<< HEAD
+        *ngFor="let category of categories()"
+        class="category-btn"
+        [class.active]="selectedCategory() === category"
+        (click)="selectCategory(category)">
+        {{ category }}
+=======
+        class="category-btn"
+        [class.active]="selectedCategoryId === null"
+        (click)="selectCategory(null)">
+        All
+      </button>
+
+      <button
+        *ngFor="let category of categories"
+        class="category-btn"
+        [class.active]="selectedCategoryId === category.categoryId"
+        (click)="selectCategory(category.categoryId)">
+        {{ category.categoryName }}
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+      </button>
+    </div>
+
+    <!-- Results Heading -->
+    <div class="results-heading">
+      <h4>
+<<<<<<< HEAD
+        {{ selectedCategory() === 'All' ? 'All Products' : selectedCategory() }}
+      </h4>
+
+      <span>{{ filteredProducts().length }} products found</span>
+=======
+        {{ selectedCategoryName }}
+      </h4>
+
+      <span>{{ totalCount }} products found</span>
+    </div>
+
+    <div *ngIf="isLoading" class="text-center py-5" role="status">
+      <span class="spinner-border text-danger" aria-hidden="true"></span>
+      <span class="visually-hidden">Loading products...</span>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-warning" role="alert">
+      <p class="mb-2">{{ errorMessage }}</p>
+      <button class="btn btn-outline-danger" (click)="retry()">Try again</button>
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+    </div>
+
+    <!-- Product Cards -->
+    <div class="row g-4" *ngIf="!isLoading && !errorMessage">
+
+      <div
+        class="col-12 col-sm-6 col-lg-4"
+<<<<<<< HEAD
+        *ngFor="let product of paginatedProducts()">
+=======
+        *ngFor="let product of products">
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+
+        <div class="product-card">
+
+          <div class="product-image">
+            <img
+              [src]="product.imageUrl || 'assets/images/product-placeholder.png'"
+              [alt]="product.name">
+
+            <span
+              class="stock-badge"
+              [class.out-of-stock]="!product.isAvailable">
+              {{ product.isAvailable ? 'Available' : 'Out of Stock' }}
+            </span>
+          </div>
+
+          <div class="product-content">
+
+            <span class="product-category">
+              {{ product.categoryName }}
+            </span>
+
+            <h5>{{ product.name }}</h5>
+
+            <p>{{ product.shortDescription || 'Discover this product.' }}</p>
+
+            <div class="product-bottom">
+              <div>
+                <span class="price-label">Price</span>
+                <h5>₹{{ product.price | number:'1.2-2' }}</h5>
+              </div>
+
+              <button
+                class="btn btn-danger"
+                [disabled]="!product.isAvailable"
+                [routerLink]="['/products', product.productId]">
+                View Details
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty State -->
+<<<<<<< HEAD
+    <div class="empty-state" *ngIf="filteredProducts().length === 0">
+=======
+    <div class="empty-state" *ngIf="!isLoading && !errorMessage && products.length === 0">
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+      <i class="bi bi-search"></i>
+      <h4>No products found</h4>
+      <p>There are no products matching these filters.</p>
+      <button
+        class="btn btn-outline-danger"
+<<<<<<< HEAD
+        (click)="searchText.set(''); selectCategory('All')">
+=======
+        (click)="clearFilters()">
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+        Clear Filters
+      </button>
+    </div>
+
+    <!-- Pagination -->
+<<<<<<< HEAD
+    <div class="pagination-container" *ngIf="totalPages() > 1">
+=======
+    <div class="pagination-container" *ngIf="!isLoading && !errorMessage && totalPages > 1">
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+
+      <button
+        class="pagination-btn"
+        [disabled]="currentPage() === 1"
+        (click)="changePage(currentPage() - 1)">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <span>Page {{ currentPage() }} of {{ totalPages() }}</span>
+
+      <button
+        class="pagination-btn"
+        [disabled]="currentPage() === totalPages()"
+        (click)="changePage(currentPage() + 1)">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+
+    </div>
+
+  </div>
+</section>

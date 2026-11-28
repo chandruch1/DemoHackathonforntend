@@ -1,0 +1,20 @@
+
+.footer {
+  background: #222;
+  color: #ddd;
+  margin-top: 40px;
+}
+
+.footer p {
+  color: #aaa;
+}
+
+.footer-link {
+  color: #ddd;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+.footer-link:hover {
+  color: #dc3545;
+}

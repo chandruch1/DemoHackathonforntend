@@ -1,0 +1,37 @@
+.dashboard-page {
+  padding: 24px;
+}
+
+.metric-card {
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.metric-icon {
+  font-size: 32px;
+  background: #f8f9fa;
+  padding: 14px;
+  border-radius: 12px;
+}
+
+.table th {
+  white-space: nowrap;
+  font-size: 14px;
+  color: #495057;
+}
+
+.table td {
+  white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+  .dashboard-page {
+    padding: 12px;
+  }
+}

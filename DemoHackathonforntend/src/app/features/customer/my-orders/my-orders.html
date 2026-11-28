@@ -1,0 +1,125 @@
+<div class="container py-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">My Orders</h2>
+      <p class="text-muted mb-0">Track and manage your orders.</p>
+    </div>
+
+    <a routerLink="/products" class="btn btn-outline-danger">
+      Continue Shopping
+    </a>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center py-5" role="status">
+    <div class="spinner-border text-danger" aria-hidden="true"></div>
+    <p class="text-muted mt-3 mb-0">Loading orders...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    <div class="d-flex justify-content-between align-items-center gap-3">
+      <span>{{ errorMessage }}</span>
+      <button class="btn btn-sm btn-outline-danger" (click)="retry()">Try again</button>
+    </div>
+  </div>
+
+  <!-- Orders List -->
+<<<<<<< HEAD
+  <div *ngIf="orders().length > 0; else emptyOrders">
+=======
+  <div *ngIf="!isLoading && !errorMessage && orders.length > 0">
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+
+    <div class="order-card mb-3"
+         *ngFor="let order of orders()">
+
+      <div class="row align-items-center g-3">
+
+        <!-- Order Details -->
+        <div class="col-md-3">
+          <small class="text-muted">Order Number</small>
+          <h6 class="fw-bold mb-1">{{ order.orderNumber }}</h6>
+          <small class="text-muted">
+            {{ order.createdAtUtc | date:'dd MMM yyyy' }}
+          </small>
+        </div>
+
+        <!-- Items -->
+        <div class="col-md-2">
+          <small class="text-muted">Items</small>
+          <h6 class="mb-0">{{ order.itemCount }} items</h6>
+        </div>
+
+        <!-- Amount -->
+        <div class="col-md-2">
+          <small class="text-muted">Total Amount</small>
+          <h6 class="fw-bold mb-0">
+            ₹{{ order.totalAmount }}
+          </h6>
+        </div>
+
+        <!-- Order Status -->
+        <div class="col-md-2">
+          <small class="text-muted">Order Status</small>
+          <div>
+            <span class="status-badge"
+                  [ngClass]="{
+                    'delivered': order.orderStatus === 'Delivered',
+                    'processing': order.orderStatus === 'Processing',
+                    'confirmed': order.orderStatus === 'Confirmed',
+                    'cancelled': order.orderStatus === 'Cancelled'
+                  }">
+              {{ order.orderStatus }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Payment Status -->
+        <div class="col-md-2">
+          <small class="text-muted">Payment</small>
+          <div>
+            <span class="payment-badge"
+                  [ngClass]="{
+                    'paid': order.paymentStatus === 'Paid',
+                    'pending': order.paymentStatus === 'Pending',
+                    'failed': order.paymentStatus === 'Failed'
+                  }">
+              {{ order.paymentStatus }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Action -->
+        <div class="col-md-1 text-md-end">
+          <a
+            [routerLink]="['/my-orders', order.orderId]"
+            class="view-link"
+            title="View order details">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Empty Orders -->
+  <div *ngIf="!isLoading && !errorMessage && orders.length === 0">
+    <div class="empty-orders">
+      <i class="bi bi-box-seam"></i>
+
+      <h4 class="fw-bold mt-3">No Orders Yet</h4>
+
+      <p class="text-muted">
+        You haven't placed any orders yet.
+      </p>
+
+      <a routerLink="/products" class="btn btn-danger mt-2">
+        Explore Products
+      </a>
+    </div>
+  </div>
+
+</div>

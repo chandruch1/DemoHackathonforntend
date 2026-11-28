@@ -1,0 +1,135 @@
+<div class="container py-5">
+
+  <h2 class="fw-bold mb-1">My Profile</h2>
+  <p class="text-muted mb-4">Manage your account information.</p>
+
+  <div class="row g-4">
+
+    <!-- Profile Information -->
+    <div class="col-lg-7">
+
+      <div class="profile-card">
+
+        <h5 class="fw-bold mb-4">
+          <i class="bi bi-person-circle text-danger me-2"></i>
+          Personal Information
+        </h5>
+
+        <form (ngSubmit)="updateProfile()">
+
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="fullName"
+              [ngModel]="fullName()"
+              (ngModelChange)="fullName.set($event)"
+              required
+              minlength="2"
+              maxlength="100">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Email Address</label>
+            <input
+              type="email"
+              class="form-control"
+              [value]="email()"
+              disabled>
+            <small class="text-muted">
+              Email is displayed as read-only in this profile form.
+            </small>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              class="form-control"
+              name="phone"
+              [ngModel]="phone()"
+              (ngModelChange)="phone.set($event)"
+              required>
+          </div>
+
+          <button type="submit" class="btn btn-danger">
+            <i class="bi bi-save me-1"></i>
+            Save Changes
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <!-- Change Password -->
+    <div class="col-lg-5">
+
+      <div class="profile-card">
+
+        <h5 class="fw-bold mb-4">
+          <i class="bi bi-shield-lock text-danger me-2"></i>
+          Change Password
+        </h5>
+
+        <form (ngSubmit)="changePassword()">
+
+          <div class="mb-3">
+            <label class="form-label">Current Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="currentPassword"
+              [ngModel]="currentPassword()"
+              (ngModelChange)="currentPassword.set($event)"
+              required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">New Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="newPassword"
+              [ngModel]="newPassword()"
+              (ngModelChange)="newPassword.set($event)"
+              required>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">Confirm New Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="confirmNewPassword"
+              [ngModel]="confirmNewPassword()"
+              (ngModelChange)="confirmNewPassword.set($event)"
+              required>
+          </div>
+
+          <button type="submit" class="btn btn-outline-danger w-100">
+            Update Password
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="message()"
+       class="alert alert-success mt-4">
+    {{ message() }}
+  </div>
+
+  <div *ngIf="errorMessage()"
+       class="alert alert-danger mt-4">
+    {{ errorMessage() }}
+  </div>
+
+</div>

@@ -1,0 +1,125 @@
+<div class="register-section">
+  <div class="container">
+
+    <div class="register-card">
+
+      <div class="register-header">
+        <i class="bi bi-shop"></i>
+        <h2>Create Account</h2>
+        <p>Join RetailStore and start shopping!</p>
+      </div>
+
+      <form (ngSubmit)="register()">
+
+        <div class="mb-3">
+          <label class="form-label">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="fullName"
+            [ngModel]="fullName()"
+            (ngModelChange)="fullName.set($event)"
+            placeholder="Enter your full name"
+            required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email Address</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [ngModel]="email()"
+            (ngModelChange)="email.set($event)"
+            placeholder="Enter your email"
+            required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Phone Number</label>
+          <input
+            type="tel"
+            class="form-control"
+            name="phone"
+            [ngModel]="phone()"
+            (ngModelChange)="phone.set($event)"
+            placeholder="Enter your phone number"
+            required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+
+          <div class="password-field">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              class="form-control"
+              name="password"
+              [ngModel]="password()"
+              (ngModelChange)="password.set($event)"
+              placeholder="Create a password"
+              required>
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="showPassword.update(show => !show)">
+              <i [class]="showPassword() ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            name="confirmPassword"
+            [ngModel]="confirmPassword()"
+            (ngModelChange)="confirmPassword.set($event)"
+            placeholder="Confirm your password"
+            required>
+        </div>
+
+        <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
+          {{ errorMessage() }}
+        </div>
+
+<<<<<<< HEAD
+        <div *ngIf="message()" class="alert alert-info" role="status">
+          {{ message() }}
+        </div>
+
+        <button type="submit" class="btn btn-danger register-btn" [disabled]="isSubmitting()">
+          <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          Create Account
+          <i class="bi bi-arrow-right ms-2"></i>
+=======
+        <div *ngIf="message" class="alert alert-success">
+          {{ message }}
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-danger register-btn"
+          [disabled]="isLoading">
+
+          <span *ngIf="isLoading"
+                class="spinner-border spinner-border-sm me-2">
+          </span>
+
+          {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+
+>>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+        </button>
+
+      </form>
+
+      <div class="login-link">
+        Already have an account?
+        <a routerLink="/login">Login</a>
+      </div>
+
+    </div>
+  </div>
+</div>

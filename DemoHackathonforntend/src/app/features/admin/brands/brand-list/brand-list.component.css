@@ -1,0 +1,54 @@
+
+.brand-page {
+  padding: 24px;
+}
+
+.brand-page .card {
+  border-radius: 12px;
+}
+
+.brand-page .table th {
+  white-space: nowrap;
+  font-size: 14px;
+  color: #495057;
+}
+
+.brand-page .table td {
+  vertical-align: middle;
+}
+
+.brand-page .btn {
+  border-radius: 7px;
+}
+
+.form-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 1050;
+}
+
+.brand-form-card {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  padding: 24px;
+  border-radius: 14px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 576px) {
+  .brand-page {
+    padding: 12px;
+  }
+
+  .brand-form-card {
+    padding: 16px;
+  }
+}
