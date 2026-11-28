@@ -1,0 +1,100 @@
+.register-section {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff5ef;
+  padding: 50px 15px;
+}
+
+.register-card {
+  max-width: 480px;
+  width: 100%;
+  margin: auto;
+  padding: 40px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.register-header i {
+  font-size: 40px;
+  color: #dc3545;
+}
+
+.register-header h2 {
+  margin-top: 12px;
+  font-weight: 700;
+  color: #222;
+}
+
+.register-header p {
+  color: #777;
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+.form-control {
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: #666;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 25px;
+  color: #666;
+}
+
+.login-link a {
+  color: #dc3545;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+  .register-card {
+    padding: 25px;
+  }
+}
+
+.register-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.alert {
+  font-size: 14px;
+}
