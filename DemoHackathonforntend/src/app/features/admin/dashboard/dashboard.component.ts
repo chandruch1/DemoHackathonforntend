@@ -21,7 +21,7 @@ interface DashboardOrder {
 export class DashboardComponent implements OnInit {
   private readonly dashboardApi = inject(AdminDashboardApiService);
 
-  readonly today = new Date();
+  readonly today = signal(new Date());
 
   metrics = signal([
     {

@@ -4,24 +4,11 @@ import {
   provideHttpClientTesting
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-<<<<<<< HEAD
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-=======
 import { environment } from '../../../../environments/environment';
->>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
 import { ProductApiService } from './product-api';
 
 describe('ProductApiService', () => {
   let service: ProductApiService;
-<<<<<<< HEAD
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()]
-    });
-    service = TestBed.inject(ProductApiService);
-=======
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
@@ -33,7 +20,6 @@ describe('ProductApiService', () => {
     });
     service = TestBed.inject(ProductApiService);
     httpTestingController = TestBed.inject(HttpTestingController);
->>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
   });
 
   afterEach(() => {

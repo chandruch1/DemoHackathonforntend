@@ -1,15 +1,11 @@
-
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
 import { ProductListItemDto } from '../../../core/models/product.model';
 import { ProductApiService } from '../../../core/services/product/product-api';
 import { getApiErrorMessage } from '../../../core/utils/api-error-message';
-
-type HomeCategory = Pick<ProductListItemDto, 'categoryId' | 'categoryName'>;
 
 @Component({
   selector: 'app-home',
@@ -19,22 +15,23 @@ type HomeCategory = Pick<ProductListItemDto, 'categoryId' | 'categoryName'>;
   styleUrl: './home.css'
 })
 export class Home {
-
-<<<<<<< HEAD
-  readonly categories = [
-    { name: 'Pizza', icon: 'bi bi-egg-fried' },
-    { name: 'Cold Drinks', icon: 'bi bi-cup-straw' },
-    { name: 'Breads', icon: 'bi bi-basket' }
-  ];
-=======
-  readonly productsPerPage = 8;
-  categories: HomeCategory[] = [];
-  products: ProductListItemDto[] = [];
-  isLoading = true;
-  errorMessage: string | null = null;
-
   private readonly destroyRef = inject(DestroyRef);
   private readonly productApi = inject(ProductApiService);
+
+  readonly productsPerPage = 8;
+  readonly products = signal<ProductListItemDto[]>([]);
+  readonly categories = computed(() => {
+    const categories = new Map<number, { categoryId: number; categoryName: string }>();
+    for (const product of this.products()) {
+      categories.set(product.categoryId, {
+        categoryId: product.categoryId,
+        categoryName: product.categoryName
+      });
+    }
+    return Array.from(categories.values());
+  });
+  readonly isLoading = signal(true);
+  readonly errorMessage = signal<string | null>(null);
 
   constructor() {
     this.loadProducts();
@@ -45,38 +42,24 @@ export class Home {
   }
 
   private loadProducts(): void {
-    this.isLoading = true;
-    this.errorMessage = null;
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
 
     this.productApi.getProducts(1, this.productsPerPage).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
       next: response => {
-        this.products = response.items;
-        this.categories = Array.from(
-          new Map(
-            response.items.map(product => [
-              product.categoryId,
-              {
-                categoryId: product.categoryId,
-                categoryName: product.categoryName
-              }
-            ])
-          ).values()
-        );
-        this.isLoading = false;
+        this.products.set(response.items);
+        this.isLoading.set(false);
       },
       error: (error: HttpErrorResponse) => {
-        this.products = [];
-        this.categories = [];
-        this.errorMessage = getApiErrorMessage(
+        this.products.set([]);
+        this.errorMessage.set(getApiErrorMessage(
           error,
           'We could not load the store catalogue. Please try again.'
-        );
-        this.isLoading = false;
+        ));
+        this.isLoading.set(false);
       }
     });
   }
->>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
-
 }

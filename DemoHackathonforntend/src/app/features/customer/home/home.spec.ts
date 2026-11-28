@@ -47,8 +47,8 @@ describe('Home', () => {
 
   it('loads the featured catalogue from the product API', () => {
     expect(productApi.getProducts).toHaveBeenCalledWith(1, 8);
-    expect(component.products[0].name).toBe('API product');
-    expect(component.categories).toEqual([
+    expect(component.products()[0].name).toBe('API product');
+    expect(component.categories()).toEqual([
       { categoryId: 3, categoryName: 'API category' }
     ]);
   });

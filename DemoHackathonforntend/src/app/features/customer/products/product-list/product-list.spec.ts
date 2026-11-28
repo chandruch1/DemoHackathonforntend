@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { CategoryApiService } from '../../../../core/services/category/category-api';
 import { ProductApiService } from '../../../../core/services/product/product-api';
 import { ProductList } from './product-list';
 
@@ -22,7 +23,8 @@ describe('ProductList', () => {
     await TestBed.configureTestingModule({
       imports: [ProductList],
       providers: [
-        { provide: ProductApiService, useValue: productApi }
+        { provide: ProductApiService, useValue: productApi },
+        { provide: CategoryApiService, useValue: { getCategories: vi.fn().mockReturnValue(of([])) } }
       ]
     }).compileComponents();
 
@@ -36,6 +38,6 @@ describe('ProductList', () => {
   });
 
   it('loads the initial page from the product API', () => {
-    expect(productApi.getProducts).toHaveBeenCalledWith(1, 6, '', undefined);
+    expect(productApi.getProducts).toHaveBeenCalledWith(1, 9, '', undefined);
   });
 });

@@ -58,11 +58,11 @@ describe('Cart', () => {
 
   it('loads the cart and delegates quantity changes to the backend', () => {
     expect(cartApi.getCart).toHaveBeenCalledOnce();
-    expect(component.cart).toEqual(cart);
+    expect(component.cart()).toEqual(cart);
 
     component.updateQuantity(cart.items[0], 1);
 
     expect(cartApi.updateItem).toHaveBeenCalledWith(4, { quantity: 2 });
-    expect(component.cart).toEqual(cart);
+    expect(component.cart()).toEqual(cart);
   });
 });

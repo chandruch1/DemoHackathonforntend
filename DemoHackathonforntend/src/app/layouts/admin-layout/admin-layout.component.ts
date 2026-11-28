@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-
 import { AuthService } from '../../core/auth/auth';
 
 @Component({
@@ -11,14 +10,10 @@ import { AuthService } from '../../core/auth/auth';
   styleUrl: './admin-layout.component.css'
 })
 export class AdminLayoutComponent {
-<<<<<<< HEAD
-  readonly menuItems = [
-=======
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  menuItems = [
->>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+  readonly menuItems = [
     { label: 'Dashboard', icon: 'bi-speedometer2', route: '/admin/dashboard' },
     { label: 'Products', icon: 'bi-box-seam', route: '/admin/products' },
     { label: 'Categories', icon: 'bi-grid', route: '/admin/categories' },

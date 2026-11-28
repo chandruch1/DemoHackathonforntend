@@ -8,7 +8,17 @@
       <p>Review your selected products before checkout.</p>
     </div>
 
-    <div *ngIf="cart.items.length > 0; else emptyCart">
+    <div *ngIf="isLoading()" class="text-center py-5" role="status">
+      <span class="spinner-border text-danger" aria-hidden="true"></span>
+      <span class="visually-hidden">Loading cart...</span>
+    </div>
+
+    <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
+      <span>{{ errorMessage() }}</span>
+      <button class="btn btn-sm btn-outline-danger ms-3" (click)="retry()">Try again</button>
+    </div>
+
+    <div *ngIf="!isLoading() && !errorMessage() && cart()?.items?.length">
 
       <div class="row g-4">
 
@@ -16,14 +26,14 @@
         <div class="col-lg-8">
 
           <div class="cart-header">
-            <h5>Cart Items ({{ cart().itemCount }})</h5>
+            <h5>Cart Items ({{ cart()!.itemCount }})</h5>
 
-            <button class="clear-btn" [disabled]="isUpdating" (click)="clearCart()">
+            <button class="clear-btn" [disabled]="isUpdating()" (click)="clearCart()">
               <i class="bi bi-trash"></i> Clear Cart
             </button>
           </div>
 
-          <div class="cart-item" *ngFor="let item of cart().items">
+          <div class="cart-item" *ngFor="let item of cart()!.items">
 
             <img *ngIf="item.imageUrl" [src]="item.imageUrl" [alt]="item.productName">
 
@@ -36,7 +46,7 @@
 
                 <button
                   (click)="updateQuantity(item, -1)"
-                  [disabled]="isUpdating || item.quantity <= 1">
+                  [disabled]="isUpdating() || item.quantity <= 1">
                   <i class="bi bi-dash"></i>
                 </button>
 
@@ -44,7 +54,7 @@
 
                 <button
                   (click)="updateQuantity(item, 1)"
-                  [disabled]="isUpdating || item.quantity >= item.availableQuantity">
+                  [disabled]="isUpdating() || item.quantity >= item.availableQuantity">
                   <i class="bi bi-plus"></i>
                 </button>
 
@@ -56,7 +66,7 @@
 
               <button
                 class="remove-btn"
-                [disabled]="isUpdating"
+                [disabled]="isUpdating()"
                 (click)="removeItem(item.cartItemId)">
                 <i class="bi bi-trash"></i> Remove
               </button>
@@ -80,19 +90,19 @@
 
             <div class="summary-row">
               <span>Total Items</span>
-              <span>{{ cart().itemCount }}</span>
+              <span>{{ cart()!.itemCount }}</span>
             </div>
 
             <div class="summary-row">
               <span>Subtotal</span>
-              <strong>₹{{ cart().subtotal | number:'1.2-2' }}</strong>
+              <strong>₹{{ cart()!.subtotal | number:'1.2-2' }}</strong>
             </div>
 
             <hr>
 
             <div class="summary-row total-row">
               <strong>Subtotal</strong>
-              <strong>₹{{ cart().subtotal | number:'1.2-2' }}</strong>
+              <strong>₹{{ cart()!.subtotal | number:'1.2-2' }}</strong>
             </div>
 
             <p class="summary-note">
@@ -113,7 +123,7 @@
     </div>
 
     <div
-      *ngIf="!isLoading && !errorMessage && cart?.items.length === 0"
+      *ngIf="!isLoading() && !errorMessage() && cart()?.items?.length === 0"
       class="empty-cart">
       <i class="bi bi-cart-x"></i>
 

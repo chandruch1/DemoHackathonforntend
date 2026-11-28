@@ -1,16 +1,22 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProductListItemDto, PagedResponse } from '../../models/product.model';
+import {
+  AdminProductUpsertDto,
+  PagedResponse,
+  ProductDetailsDto,
+  ProductListItemDto,
+  UpdateActiveStatusDto
+} from '../../models/product.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductApiService {
-
-  private readonly apiUrl = 'https://localhost:7000/api/v1/products';
-
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = `${environment.apiUrl.replace(/\/$/, '')}/products`;
+  private readonly adminBaseUrl = `${environment.apiUrl.replace(/\/$/, '')}/admin/products`;
 
   getProducts(
     page: number = 1,
@@ -71,5 +77,13 @@ export class ProductApiService {
 
   updateProduct(id: number, dto: AdminProductUpsertDto): Observable<ProductDetailsDto> {
     return this.http.put<ProductDetailsDto>(`${this.adminBaseUrl}/${id}`, dto);
+  }
+
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.adminBaseUrl}/${id}`);
+  }
+
+  updateActiveStatus(id: number, dto: UpdateActiveStatusDto): Observable<void> {
+    return this.http.patch<void>(`${this.adminBaseUrl}/${id}/active-status`, dto);
   }
 }

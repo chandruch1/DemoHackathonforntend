@@ -1,21 +1,17 @@
-<<<<<<< HEAD
-<div class="container py-5" *ngIf="order() as order">
-=======
 <div class="container py-5">
-  <div *ngIf="isLoading" class="text-center py-5" role="status">
+  <div *ngIf="isLoading()" class="text-center py-5" role="status">
     <div class="spinner-border text-danger" aria-hidden="true"></div>
     <p class="text-muted mt-3 mb-0">Loading order...</p>
   </div>
 
-  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+  <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
     <div class="d-flex justify-content-between align-items-center gap-3">
-      <span>{{ errorMessage }}</span>
+      <span>{{ errorMessage() }}</span>
       <button class="btn btn-sm btn-outline-danger" (click)="retry()">Try again</button>
     </div>
   </div>
 
-  <ng-container *ngIf="order as currentOrder">
->>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+  <ng-container *ngIf="order() as currentOrder">
 
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">

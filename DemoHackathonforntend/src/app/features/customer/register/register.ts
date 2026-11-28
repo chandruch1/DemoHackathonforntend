@@ -1,21 +1,10 @@
-<<<<<<< HEAD
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth';
-import { getApiErrorMessage } from '../../../core/models/api-error';
-import { RegisterCustomerRequest } from '../../../core/models/auth.model';
-=======
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-
-import { AuthService } from '../../../core/auth/auth';
 import { RegisterCustomerRequest } from '../../../core/models/auth.model';
 import { getApiErrorMessage } from '../../../core/utils/api-error-message';
->>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
 
 @Component({
   selector: 'app-register',
@@ -25,58 +14,29 @@ import { getApiErrorMessage } from '../../../core/utils/api-error-message';
   styleUrl: './register.css'
 })
 export class Register {
+  private readonly authService = inject(AuthService);
 
-<<<<<<< HEAD
   fullName = signal('');
   email = signal('');
   phone = signal('');
   password = signal('');
   confirmPassword = signal('');
-
   showPassword = signal(false);
   message = signal('');
   errorMessage = signal('');
   isSubmitting = signal(false);
 
-  constructor(private readonly authService: AuthService) {}
-
   register(): void {
     this.message.set('');
     this.errorMessage.set('');
-=======
-  private authService = inject(AuthService);
-  private router = inject(Router);
+    if (this.isSubmitting()) return;
 
-  fullName = '';
-  email = '';
-  phone = '';
-  password = '';
-  confirmPassword = '';
-
-  showPassword = false;
-  isLoading = false;
-
-  message = '';
-  errorMessage = '';
-
-  register(): void {
-
-    this.message = '';
-    this.errorMessage = '';
->>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
-
-    const fullName = this.fullName();
-    const email = this.email();
-    const phone = this.phone();
+    const fullName = this.fullName().trim();
+    const email = this.email().trim();
+    const phone = this.phone().trim();
     const password = this.password();
     const confirmPassword = this.confirmPassword();
-    if (
-      !fullName ||
-      !email ||
-      !phone ||
-      !password ||
-      !confirmPassword
-    ) {
+    if (!fullName || !email || !phone || !password || !confirmPassword) {
       this.errorMessage.set('Please fill in all fields.');
       return;
     }
@@ -86,8 +46,7 @@ export class Register {
       return;
     }
 
-<<<<<<< HEAD
-    const registerRequest: RegisterCustomerRequest = {
+    const request: RegisterCustomerRequest = {
       fullName,
       email,
       phone,
@@ -96,7 +55,7 @@ export class Register {
     };
 
     this.isSubmitting.set(true);
-    this.authService.register(registerRequest).subscribe({
+    this.authService.register(request).subscribe({
       next: () => {
         this.isSubmitting.set(false);
         this.message.set('Your account was created. You can now log in.');
@@ -108,35 +67,7 @@ export class Register {
       },
       error: error => {
         this.isSubmitting.set(false);
-        this.errorMessage.set(getApiErrorMessage(error));
-=======
-    const request: RegisterCustomerRequest = {
-      fullName: this.fullName,
-      email: this.email,
-      phone: this.phone,
-      password: this.password,
-      confirmPassword: this.confirmPassword
-    };
-
-    this.isLoading = true;
-
-    this.authService.register(request).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.message = 'Registration successful! Redirecting to login...';
-
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 1500);
-      },
-
-      error: error => {
-        this.isLoading = false;
-        this.errorMessage = getApiErrorMessage(
-          error,
-          'Registration failed. Please try again.'
-        );
->>>>>>> 73bdac2022968348a69bbae339adc0bfa8c4ae79
+        this.errorMessage.set(getApiErrorMessage(error, 'Registration failed. Please try again.'));
       }
     });
   }

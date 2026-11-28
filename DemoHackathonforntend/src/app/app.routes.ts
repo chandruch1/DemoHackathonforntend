@@ -1,17 +1,12 @@
 
 import { Routes } from '@angular/router';
+import { adminGuard } from './core/guards/admin.guard';
+import { authGuard } from './core/guards/auth.guard';
 import { CustomerLayout } from './layouts/customer-layout/customer-layout';
 import { Login } from './features/customer/login/login';
 import { Register } from './features/customer/register/register';
 
 export const routes: Routes = [
-  {
-    path: 'admin',
-    canActivate: [adminGuard],
-    loadChildren: () =>
-      import('./features/admin/admin.routes')
-        .then(m => m.ADMIN_ROUTES)
-  },
   {
     path: 'login',
     component: Login
@@ -22,7 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [adminRoleGuard],
+    canActivate: [adminGuard],
     loadChildren: () =>
       import('./features/admin/admin.routes')
         .then(module => module.ADMIN_ROUTES)

@@ -42,7 +42,7 @@
           </a>
         </li>
 
-        <ng-container *ngIf="authService.isAuthenticated()">
+        <ng-container *ngIf="isLoggedIn()">
 
           <li class="nav-item" *ngIf="currentUser()?.role === 'Admin'">
             <a class="nav-link" routerLink="/admin/dashboard">
@@ -76,10 +76,6 @@
 
         </ng-container>
 
-        <li class="nav-item" *ngIf="authService.isAdmin()">
-          <a class="nav-link" routerLink="/admin">Admin</a>
-        </li>
-
       </ul>
 
       <!-- Right Side Actions -->
@@ -90,7 +86,7 @@
           Cart
         </a>
 
-        <ng-container *ngIf="!authService.isAuthenticated(); else loggedInMenu">
+        <ng-container *ngIf="!isLoggedIn(); else loggedInMenu">
 
           <a routerLink="/login"
              class="btn btn-danger px-4">

@@ -1,4 +1,16 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Backend (.NET)
+**/bin/
+**/obj/
+
+# Frontend (Angular / Node)
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Environment and secrets
+**/.env
+**/.env.*
+!**/.env.example
 
 # Compiled output
 /dist
